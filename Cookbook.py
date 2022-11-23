@@ -109,7 +109,42 @@ def sentiment_analyze(tweet):
     return labels, scores
 
 
-# In[113]:
+
+def get_follower_tweets(screen_name, max_users):
+
+    # Get User Object
+
+    user_obj = twitter_api.get_user(screen_name=screen_name)
+    user_timeline = user_obj.timeline()
+    user_followers = twitter_api.get_followers(screen_name=screen_name, count=max_users)
+
+    # Dict for tweets & metadata will be turned into a Pandas dataframe
+    
+    dict_tweets = {
+    'user': [],
+    'tweet': [],
+    'source': []
+    }
+
+    # For each follower, add all timeline tweets to dict
+    
+    for curr_user in user_followers:
+        if curr_user.protected:
+            continue
+            
+        curr_timeline = curr_user.timeline()
+        for tweet in curr_timeline:
+            dict_tweets['user'].append(curr_user.screen_name)
+            dict_tweets['tweet'].append(tweet.text)
+            dict_tweets['source'].append(tweet.source)
+
+
+    # Create dataframe
+    
+    df = pd.DataFrame.from_dict(dict_tweets)
+    return df
+
+
 
 
 
