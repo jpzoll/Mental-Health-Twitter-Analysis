@@ -62,7 +62,7 @@ access_token_secret = config['twitter']['access_token_secret']
 
 auth = tweepy.OAuthHandler(api_key, api_key_secret)
 auth.set_access_token(access_token, access_token_secret)
-twitter_api = tweepy.API(auth)
+twitter_api = tweepy.API(auth, wait_on_rate_limit=True)
 
 
 # # Sentiment Analysis
@@ -81,12 +81,12 @@ from scipy.special import softmax
 # In[112]:
 
 
-def sentiment_analyze(tweet):
+def analyze_sentiment(tweet):
     # Preprocess Tweet
     words = tweet.split(' ')
     words = ['@user' if (w.startswith('@') and len(w) > 1) else w for w in words]
     tweet_preprocessed = " ".join(words)
-    print(f'Tweet (Preprocessed): {tweet_preprocessed}')
+    #print(f'Tweet (Preprocessed): {tweet_preprocessed}')
     
     # Initialize Model
     roberta_url = 'cardiffnlp/twitter-roberta-base-sentiment'
@@ -103,10 +103,54 @@ def sentiment_analyze(tweet):
     scores = output[0][0].detach().numpy()
     scores = softmax(scores)
 
-    for i in range(len(scores)):
-        print(f'{labels[i]}: {scores[i]}')
+    #for i in range(len(scores)):
+    #    print(f'{labels[i]}: {scores[i]}')
         
     return labels, scores
+
+
+def classify_sentiment(tweets):
+    mood_tallies = {
+    'Positive': 0,
+    'Negative': 0,
+    'Neutral': 0
+    }
+    
+    for tweet in tweets:
+        labels, scores = analyze_sentiment(tweet)
+        curr_scores = zip(labels, scores)
+        max_sentiment = max(curr_scores, key=lambda x: x[1])
+        mood, mood_rating = max_sentiment[0], max_sentiment[1]
+        mood_tallies[mood] += 1
+        
+    classification = max(mood_tallies, key=mood_tallies.get)
+    return classification
+
+
+def create_user_dataframe(userList):
+    
+    d = {
+        'user': [],
+        'mood': [],
+        'follower_mood': []
+    }
+    
+    for user in userList:
+        f_tweets = get_follower_tweets(user, 5)['tweet'].values
+        tweets = twitter_api.get_user(screen_name=user).timeline()
+        tweets = [t.text for t in tweets]
+
+        mood = classify_sentiment(f_tweets[:6])
+        follower_mood = classify_sentiment(tweets[:6])
+
+        d['user'].append(user)
+        d['mood'].append(mood)
+        d['follower_mood'].append(follower_mood)
+        
+    df = pd.DataFrame.from_dict(d, orient='index').T
+    return df
+
+    
 
 
 
@@ -143,6 +187,10 @@ def get_follower_tweets(screen_name, max_users):
     
     df = pd.DataFrame.from_dict(dict_tweets)
     return df
+
+
+
+
 
 
 
