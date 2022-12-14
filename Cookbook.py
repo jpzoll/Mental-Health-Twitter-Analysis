@@ -11,6 +11,7 @@
 import tweepy
 import configparser
 import pandas as pd
+from textblob import TextBlob
 
 
 # # Initialization of Tokens, Keys, & Twitter API
@@ -150,6 +151,34 @@ def create_user_dataframe(userList):
     df = pd.DataFrame.from_dict(d, orient='index').T
     return df
 
+def create_user_dataframe2(userList):
+    
+    d = {
+        'user': [],
+        'mood': [],
+        'follower_mood': []
+    }
+    
+    for user in userList:
+        f_tweets = get_follower_tweets(user, 5)['tweet'].values
+        tweets = twitter_api.get_user(screen_name=user).timeline()
+        tweets = [t.text for t in tweets]
+
+        #mood = classify_sentiment(f_tweets[:6])
+        #follower_mood = classify_sentiment(tweets[:6])
+        mood = np.mean(map(lambda x: TextBlob(x).sentiment[0], tweets))
+        follower_mood = np.mean(map(lambda x: TextBlob(x).sentiment[0], f_tweets))
+
+        d['user'].append(user)
+        d['mood'].append(mood)
+        d['follower_mood'].append(follower_mood)
+        
+    df = pd.DataFrame.from_dict(d, orient='index').T
+    return df
+
+
+
+
     
 
 
@@ -176,7 +205,7 @@ def get_follower_tweets(screen_name, max_users):
         if curr_user.protected:
             continue
             
-        curr_timeline = curr_user.timeline()
+        curr_timeline = curr_user.timeline(count=10)
         for tweet in curr_timeline:
             dict_tweets['user'].append(curr_user.screen_name)
             dict_tweets['tweet'].append(tweet.text)
