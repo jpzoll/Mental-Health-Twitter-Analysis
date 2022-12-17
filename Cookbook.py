@@ -152,6 +152,7 @@ def create_user_dataframe(userList):
     return df
 
 def create_user_dataframe2(userList):
+    print('running!')
     
     d = {
         'user': [],
@@ -160,14 +161,18 @@ def create_user_dataframe2(userList):
     }
     
     for user in userList:
-        f_tweets = get_follower_tweets(user, 5)['tweet'].values
-        tweets = twitter_api.get_user(screen_name=user).timeline()
+        user_obj = twitter_api.get_user(screen_name=user)
+        if user_obj.protected: 
+            continue
+            
+        f_tweets = get_follower_tweets(user, 10)['tweet'].values
+        tweets = user_obj.timeline(count=10)
         tweets = [t.text for t in tweets]
 
         #mood = classify_sentiment(f_tweets[:6])
         #follower_mood = classify_sentiment(tweets[:6])
-        mood = np.mean(map(lambda x: TextBlob(x).sentiment[0], tweets))
-        follower_mood = np.mean(map(lambda x: TextBlob(x).sentiment[0], f_tweets))
+        mood = np.mean(list(map(lambda x: TextBlob(x).sentiment[0], tweets)))
+        follower_mood = np.mean(list(map(lambda x: TextBlob(x).sentiment[0], f_tweets)))
 
         d['user'].append(user)
         d['mood'].append(mood)
@@ -204,6 +209,7 @@ def get_follower_tweets(screen_name, max_users):
     for curr_user in user_followers:
         if curr_user.protected:
             continue
+            
             
         curr_timeline = curr_user.timeline(count=10)
         for tweet in curr_timeline:
