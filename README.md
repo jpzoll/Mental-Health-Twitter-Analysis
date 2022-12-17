@@ -14,6 +14,18 @@
 - Config.ini - Stores the API keys needed to access & authenticate the Twitter API on behalf our developer account
 - TWITTER_API_TEMPLATE.ipynb - Template for authenticating Twitter. Uses Config.ini and tweepy
 
+### Needed Libraries
+
+- tweepy
+- configparser
+- Pandas
+- NLTK
+  - nltk.corpus
+- matplotlib (import matplotlib.pyplot as plt)
+- Textblob (from textblob import TextBlob)
+- NumPy
+- sklearn (from sklearn.cluster import KMeans)
+
 # For Section 1 | Comparative Analysis:
 
 ### Main Files (IN ORDER)
