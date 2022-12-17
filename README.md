@@ -45,3 +45,8 @@
 
 1. preprocessing_clustering.ipynb
 2. k_means_clustering.ipynb
+
+### Data
+
+1. data/user_accounts.csv
+2. data/mood_and_f_moods2.csv
