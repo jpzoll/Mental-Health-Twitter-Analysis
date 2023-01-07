@@ -105,12 +105,23 @@ Our results from that statistical analysis shows interesting findings, such as:
 ## Actors | K-Means Clustering
 
 In this section, we were looking to gather tweets among many spiritual teachers,
-psychology/psychology-related academics (professors), leaders, authors and more.
+psychology/psychology-related academics (professors), leaders, and more.
 We also gathered tweets from a specific outgroup and our **hypothesis was: Spritiual
 influencers have a more positive effect on their tweets and community than other
 outgroups**. The difference in this section is that we want to look at the sentiment
 analysis of _the accounts themselves AND the sentiment analysis of the followers/community members of these accounts_. We want to see if positive accounts foster positive sentiments among themselves and the people they have an impact on.
 We chose **Actors** (movies, TV) as our chosen outgroup for comparison.
+
+## Why K-Means Clustering?
+
+K-Means is a great way to sanction obvious clusters of data (aka data points that are very close together). Since our hypothesis predicts a gap in moods between Spiritual accounts and Actor accounts, that _hypothetically_ will look like data on a graph with two distinct clusters.
+
+In K-Means Clustering, we start out by picking K random centroids (in our case, we will use 2 centroids) that we will compare as we iterate. From there, we iterate each data point and compare the distance between the point and the centroids, assigning based on which distance is shorter. There are many ways to compute distance, but for this project used _Scikit-Learn_
+'s default in _Euclidean Distance_.
+
+<img src="images/k_mean_2_cluster.png" width="400">
+
+##### This is simplified version of what we are predicting, where one cluster is our Actors and another is our Spiritual Accounts.
 
 #### Clustering Process
 
