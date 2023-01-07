@@ -1,4 +1,6 @@
-# CIS 563 - Final Project Report
+# Mental Health Twitter Analysis
+
+## CIS 563 - Final Project Report
 
 ## Joseph Zoll and Prarthana Poojara
 
