@@ -11,7 +11,10 @@
 import tweepy
 import configparser
 import pandas as pd
-from textblob import TextBlob
+import snscrape.modules.twitter as sntwitter
+import nltk
+from nltk.corpus import stopwords
+from textblob import Word, TextBlob
 
 
 # # Initialization of Tokens, Keys, & Twitter API
@@ -201,7 +204,7 @@ def get_follower_tweets(screen_name, max_users):
     dict_tweets = {
     'user': [],
     'tweet': [],
-    'source': []
+    #'source': []
     }
 
     # For each follower, add all timeline tweets to dict
@@ -215,15 +218,37 @@ def get_follower_tweets(screen_name, max_users):
         for tweet in curr_timeline:
             dict_tweets['user'].append(curr_user.screen_name)
             dict_tweets['tweet'].append(tweet.text)
-            dict_tweets['source'].append(tweet.source)
+            #dict_tweets['source'].append(tweet.source)
 
 
     # Create dataframe
     
-    df = pd.DataFrame.from_dict(dict_tweets)
+    df = pd.DataFrame(dict_tweets)
     return df
 
 
+def preprocess_tweet(tweet, custom_stopwords, stop_words = stopwords.words("english")):
+    preprocessed_tweet = tweet
+    preprocessed_tweet.replace('[^\w\s]','')
+    preprocessed_tweet = " ".join(word for word in preprocessed_tweet.split() if word not in stop_words)
+    preprocessed_tweet = " ".join(word for word in preprocessed_tweet.split() if word not in custom_stopwords)
+    preprocessed_tweet = " ".join(Word(word).lemmatize()for word in preprocessed_tweet.split())
+    return(preprocessed_tweet)
+
+
+def compute_twitter_query_mood(screen_name, max_tweets, query_form='from'):
+    query = f'({query_form}:{screen_name})'
+    tweets = []
+    
+    for tweet in sntwitter.TwitterSearchScraper(query).get_items():
+        if len(tweets) >= max_tweets:
+            break
+            
+        tweets.append(tweet.content)
+        
+    mood = np.mean(list(map(lambda x: TextBlob(x).sentiment[0], tweets)))
+    
+    return mood
 
 
 
