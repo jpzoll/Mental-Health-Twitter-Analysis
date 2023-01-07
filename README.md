@@ -30,9 +30,9 @@ _the_ , most prominent social media platform in the world. It is based in discus
 statements, observations, and commentary. You can find millions to possibly even
 billions of tweets on mental health, meditation, and more.
 
-#### Q 1
+#### Q 1 -> What helps our mental health the most? Is it meditation? Yoga? Exercise?
 
-#### Q 2
+#### Q 2 -> Who helps our mental health the most? Do mental health advocates, spiritual teachers, psychology professors, and in general “positive” mental health influencers have a greater affect on their audiences than other types of influencers?
 
 To communicate with the Twitter API, we used the _tweepy_ library in _Python_. Tweepy
 allows us to do many things, such as:
