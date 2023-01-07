@@ -42,7 +42,7 @@ For Section 1, we gathered 5,000 tweets containing the hashtag _#mentalhealth_. 
 took a few minutes to load, but we managed to gather all the tweets needed for our
 analysis.
 
-<img src="images/1_5000_tweets.png" width="250">
+<img src="images/1_5000_tweets.png" width="500">
 
 For Section 2, we manually researched 50 “spirituality” accounts and 50 accounts of
 famous actors, giving us 100 total accounts. These were all stored on a .csv file that
@@ -91,12 +91,12 @@ Our results from that statistical analysis shows interesting findings, such as:
 
 ### Graphical Comparisons between Self Care Groups
 
-<img src="images/2_avg_polarities.png" width="250">
-<img src="images/3_avg_subj.png" width="250">
+<img src="images/2_avg_polarities.png" width="500">
+<img src="images/3_avg_subj.png" width="500">
 
 ### Statistical Aggregation (yoga = Meditation Group)
 
-<img src="images/4_stats.png" width="250">
+<img src="images/4_stats.png" width="400">
 
 ## SECTION 2: Mental Health Groups Vs.
 
@@ -166,7 +166,7 @@ We retrieved our sentiment analyzed data, and from here we used **sklearn** to p
 with 2 groups in comparision. After the **K-Means** model was initialized and we fed our
 data, our clustering came out as follows.
 
-<img src="images/6_k_means.png" width="250">
+<img src="images/6_k_means.png" width="750">
 
 We can see that there was a bit of a mix in our data. The highest moods were those of
 spiritual accounts, while at the same time the lowest moods were those of spiritual
