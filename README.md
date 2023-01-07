@@ -173,6 +173,10 @@ spiritual accounts, while at the same time the lowest moods were those of spirit
 accounts as well. Actors can be found throughout the diagram _aside_ from high account
 moods.
 
+Overall, the actor and spirituality accounts were fairly mixed together, with no distinct differences between the two groups in terms of account moods and community moods
+
+Our hypothesis that spirituality accounts yield higher moods personally and within their communities was _incorrect_.
+
 ## Challenges
 
 As mentioned in the prior section, gathering our data was by far the most tricky part.
