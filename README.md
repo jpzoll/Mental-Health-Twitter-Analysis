@@ -40,14 +40,14 @@ To communicate with the Twitter API, we used the _tweepy_ library in _Python_. T
 allows us to do many things, such as:
 Fetch users, user metadata, & user timeline tweets
 Fetch tweets with a particular hashtag
-For Section 1, we gathered 5,000 tweets containing the hashtag _#mentalhealth_. This
-took a few minutes to load, but we managed to gather all the tweets needed for our
-analysis.
+We also used _SNScrape_. _SNScrape_ is a scraper for social networks. It scrapes information such as user profiles, hashtags, or searches and returns the discovered items, e.g. the relevant posts. While Tweepy was used for basic authentication and similar types of retrievals, we eventually turned to _SNScrape_ for main datasets for both sections because we were able to sample MUCH MORE tweets with compared to Tweepy.
 
-<img src="images/1_5000_tweets.png" width="500">
+For Section 1, we gathered 10,000 tweets containing the hashtag _#mentalhealth_ in _SNScrape_. This took a few minutes to load, but we managed to gather all the tweets needed for our analysis.
 
-For Section 2, we manually researched 50 “spirituality” accounts and 50 accounts of
-famous actors, giving us 100 total accounts. These were all stored on a .csv file that
+<img src="images/1_10000_tweets.png" width="500">
+
+For Section 2, we manually researched 40 “spirituality” accounts and 40 accounts of
+famous actors, giving us 80 total accounts. These were all stored on a .csv file that
 stored the searchable username for the Twitter API to retrieve.
 
 ## SECTION 1: Self Care Methodologies |
@@ -79,7 +79,7 @@ tweets per group. That is:
 
 ### SECTION 1: Results
 
-We extracted these groups via gathering 5000 tweets containing the hashtag:
+We extracted these groups via gathering 10,000 tweets containing the hashtag:
 **_#mentalhealth_** as an umbrella and each of the 3 groups being tweets that contain the
 group titles themselves or synonyms (i.e. Meditation ,meditate, yoga, breathwork,
 mindfulness, mindful, etc.).
@@ -107,11 +107,9 @@ Our results from that statistical analysis shows interesting findings, such as:
 In this section, we were looking to gather tweets among many spiritual teachers,
 psychology/psychology-related academics (professors), leaders, authors and more.
 We also gathered tweets from a specific outgroup and our **hypothesis was: Spritiual
-influencers have a more positive effect on their tweets and followers than other
+influencers have a more positive effect on their tweets and community than other
 outgroups**. The difference in this section is that we want to look at the sentiment
-analysis of _the accounts themselves AND the sentiment analysis of the followers of
-these accounts_. We want to see if positive accounts foster positive sentiments among
-themselves and the people they have an impact on.
+analysis of _the accounts themselves AND the sentiment analysis of the followers/community members of these accounts_. We want to see if positive accounts foster positive sentiments among themselves and the people they have an impact on.
 We chose **Actors** (movies, TV) as our chosen outgroup for comparison.
 
 #### Clustering Process
@@ -121,10 +119,9 @@ getting 50 spiritual accounts and 50 actor accounts. From here, we had a big tas
 attempted:
 
 ```
-1. Gather 50-100 timeline tweets per accounts (10,000 tweets) → Account Mood
-2. For every 10 followers per accounts, gather 10 tweets each (10,000 tweets)→
-Follower Mood
-3. Once we have every Account Mood & Follower Mood (again an average), we will
+1. Gather & perform Sentiment Analysis 100 timeline tweets per spiritual or actor account → Account Mood
+2. Gather & perform Sentiment Analysis on 200-300 tweets made AT each spiritual or actor account → Community Mood
+3. Once we have every Account Mood & Community Mood (again an average), we will
 have everything neatly placed in a Pandas Dataframe. A small version may look like
 this:
 ```
@@ -132,10 +129,10 @@ this:
 <img src="images/5_mini_df.png" width="250">
 
 ```
-6. Scatter plot the mood/follower_mood on a graph
+6. Scatter plot the mood/community_mood on a graph
 7. Perform k-means clustering on the unlabeled data, seeing what results we get for
 positive & negative groups. Since our hypothesis is that “positive” influencers will
-have a higher mood/follower_mood ratio than “negative” influencers, but k-means
+have a higher mood/community_mood ratio than “negative” influencers, but k-means
 clustering will confirm if things are as black & white as that
 ```
 
@@ -143,23 +140,12 @@ clustering will confirm if things are as black & white as that
 
 #### Preprocessing Results
 
-For this section, we successfully managed to our account moods and follower moods,
+For this section, we successfully managed to our account moods and community moods,
 as challenging as it was. It took multiple trial and errors, and the time it took to create
-the Pandas data frame containing each account with its two features. Specifically, our
-final run of our function _create_user_dataframe2(..)_ , took ~2 hours, not to mention we
-had to decrease our accounts from 50 & 50 to 25 & 25 and remove invalid accounts,
-totaling to 44 analyzed accounts in 2 hours. This is explained by the following time
-complexity breakdown:
-44 Account accounts iterated over:
-For every account, get max 10 followers
-For every follower, get max 10 tweets
-For every account, get max 10 timeline tweets
+the Pandas data frame containing each account with its two features. Specifically, one run of our function _create_user_dataframe2(..)_ , took ~2 hours, not to mention we
+had to decrease our accounts from 50 & 50 to 20 & 20 and remove invalid accounts.
 
-**\*\*** for every tweet, perform sentiment analysis on it**
-The worst case scenario is ~4500-5000 tweets. The Twitter API has a **rate limit\*\* for the
-number of API calls you can make, and since we are making multiple API calls per
-iteration, we ran in to countless “rate limit” messages that would make the program
-sleep for 15 minutes every time the rate limit was reached.
+Because of this, we again turned to _SNScrape_, and for each of the 80 accounts we performed sentiment analysis on 100 personal account tweets to get the mood and 200 community tweets made towards the account (from random people _to_ our spiritual or actor accounts) to get the community_mood. This was much more efficient and possible than Tweepy, which hit many rate limits and took lots of time.
 
 #### Statistical Results
 
