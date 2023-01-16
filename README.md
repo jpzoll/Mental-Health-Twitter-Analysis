@@ -15,7 +15,7 @@
   - NLTK
   - TextBlob
   - Scikit-Learn
-  - snscrape
+  - Snscrape
   - Jupyter Notebook
 
 - Data Preprocessing
