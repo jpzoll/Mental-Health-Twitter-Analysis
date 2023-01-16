@@ -4,6 +4,27 @@
 
 ## Joseph Zoll and Prarthana Poojara
 
+## Skills & Tools
+
+- Python
+
+  - Tweepy
+  - Pandas
+  - NumPy
+  - MatplotLib
+  - NLTK
+  - TextBlob
+  - Scikit-Learn
+  - snscrape
+  - Jupyter Notebook
+
+- Data Preprocessing
+- Web Scraping / API's
+- Data Visualization
+- Exploratory Data Analysis
+- Classification
+  - K-Means Clustering
+
 ## Introduction
 
 In this world of pursuit, business, politics, education, social dynamics, relationships,
